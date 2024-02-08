@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
-    const { register, handleSubmit, formState: {errors}, reset } = useForm();
+    const { register, handleSubmit, formState: {errors} } = useForm();
     const navigate = useNavigate();
 
     const hanldeSendEmail = (data) => {

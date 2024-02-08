@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
-    const { register, handleSubmit, formState: {errors}, reset } = useForm();
+    const { register, handleSubmit, formState: {errors} } = useForm();
     const {token} = useParams();
     const navigate = useNavigate();
     

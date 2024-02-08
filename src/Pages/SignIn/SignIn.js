@@ -22,7 +22,6 @@ const SignIn = () => {
         axios.post('http://localhost:5000/auth/login', user)
         .then(res => {
             if(res.status === 200){
-                console.log(res);
                 toast.success(res.data.message);
                 setUser(res.data.data)
                 reset();
