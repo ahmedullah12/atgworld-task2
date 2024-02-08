@@ -20,9 +20,9 @@ const SignUp = () => {
         axios.post('http://localhost:5000/auth/signup', user)
         .then(res => {
             if(res.status === 200){
-                toast.success(res.data.message);
+                toast.success(res.data.message + " Please Login.");
                 reset();
-                navigate('/');
+                navigate('/login');
             }
         })
         .catch(err => {

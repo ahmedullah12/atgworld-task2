@@ -1,7 +1,9 @@
 import ForgotPassword from "../Pages/ForgotPassword.js/ForgotPassword";
+import Posts from "../Pages/Posts/Posts";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: MainLayout } = require("../layout/MainLayout");
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
                 path: '/reset-password/:token',
                 element: <ResetPassword></ResetPassword>
             },
+            {
+                path: "/posts",
+                element: <PrivateRoute><Posts></Posts></PrivateRoute>
+            }
         ]
     }
 ]);

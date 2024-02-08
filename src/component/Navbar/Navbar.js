@@ -1,8 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
+import { FaUserNinja } from "react-icons/fa";
+import axios from 'axios';
 
 
 const Navbar = () => {
+    const {user, setUser} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        axios.get('http://localhost:5000/auth/logout')
+        .then(res => {
+            if(res.data.status){
+                setUser(null);
+                navigate('/login')
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        }) 
+    };
 
     return (
         <div className="navbar bg-orange-400">
@@ -26,10 +44,15 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal px-1">
 
                 {
+                    user?.email ? 
                     <>
-                        <li className='text-white  font-bold'><Link to="/register">Sign Up</Link></li>
-                        <li className='text-white  font-bold'><Link to="/login">Sign In</Link></li>
-                    </> 
+                        <li><button className='text-base text-white text-bold'><FaUserNinja/> {user.username}</button></li>
+                        <li><button onClick={handleLogout} className='text-base text-white text-bold'>Logout</button></li>
+                    </> : 
+                    <>
+                    <li className='text-white  font-bold'><Link to="/register">Sign Up</Link></li>
+                    <li className='text-white  font-bold'><Link to="/login">Sign In</Link></li>
+                </> 
                 }
                     
                 </ul>

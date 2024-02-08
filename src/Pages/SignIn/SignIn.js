@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 
 const SignIn = () => {
+    const {setUser} = useContext(AuthContext)
     const { register, handleSubmit, formState: {errors}, reset } = useForm();
     const navigate = useNavigate();
 
@@ -20,7 +22,9 @@ const SignIn = () => {
         axios.post('http://localhost:5000/auth/login', user)
         .then(res => {
             if(res.status === 200){
+                console.log(res);
                 toast.success(res.data.message);
+                setUser(res.data.data)
                 reset();
                 navigate('/');
             }
