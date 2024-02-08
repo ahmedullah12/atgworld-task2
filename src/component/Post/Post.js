@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { FaHeart, FaUserSecret } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { FaCommentDots } from "react-icons/fa6";
+import { AuthContext } from '../../context/AuthProvider';
 
 const Post = ({ post }) => {
+    const {user} = useContext(AuthContext);
     const { desc, img, userEmail, userName } = post;
+    const [isLiked, setIsLiked] = useState(false);
+    const [showCommentInput, setShowCommentInput] = useState(false);
 
+    const handleLikeToggle = () => {
+        setIsLiked(!isLiked);
+    };
+
+    const handleCommentToggle = () => {
+        setShowCommentInput(!showCommentInput);
+    };
     return (
-        <div className="max-w-sm bg-white shadow-lg rounded-md overflow-hidden mx-auto my-4">
+        <div className="max-w-md bg-white shadow-lg rounded-md overflow-hidden mx-auto my-4 px-5 py-4">
+            
+            <div className="p-4">
+                <p className="text-gray-700 font-semibold mb-2 flex items-center gap-2"><FaUserSecret/> {userName}</p>
+                <p className="text-gray-800">{desc}</p>
+            </div>
             {img && (
                 <img
                     className="w-full h-48 object-cover object-center"
@@ -12,34 +31,23 @@ const Post = ({ post }) => {
                     alt=""
                 />
             )}
-            <div className="p-4">
-                <p className="text-gray-700 font-semibold mb-2">{userName}</p>
-                <p className="text-gray-800">{desc}</p>
+            <div>
                 <div className="flex justify-between mt-4">
-                    <div className="flex items-center space-x-2">
-                        {/* Like icon (you can replace this with your own like icon) */}
-                        <svg
-                            className="h-5 w-5 text-gray-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 8h16M4 16h16"
-                            />
-                        </svg>
-                        {/* Like count */}
-                        <span className="text-gray-600">123 Likes</span>
+                    <div className='ml-5 flex items-center gap-3 cursor-pointer' onClick={handleLikeToggle}>
+                        {isLiked ? <FaHeart size={20} color="red" /> : <FaRegHeart size={20} />}
+                        Like
                     </div>
-                    <div className="flex items-center space-x-2">
-                        
-                        <span className="text-gray-600">45 Comments</span>
+                    <div className='mr-8 flex items-center gap-3 cursor-pointer' onClick={handleCommentToggle}>
+                        <FaCommentDots size={20}/> Comments
                     </div>
                 </div>
+                {showCommentInput && (
+                    <div className="mt-4">
+                        {/* Comment input field and button go here */}
+                        <input type="text" placeholder="Write a comment..." className="border p-2 rounded-md w-full" />
+                        <button className="btn btn-accent mt-2 text-white">Comment</button>
+                    </div>
+                )}
             </div>
         </div>
     );
