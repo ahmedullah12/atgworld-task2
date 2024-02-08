@@ -11,7 +11,6 @@ const SignIn = () => {
     axios.defaults.withCredentials = true;
 
     const handleLogin = (data) => {
-        console.log(data);
         const user = {
             email: data.email,
             password: data.password,
@@ -57,9 +56,6 @@ const SignIn = () => {
                     minLength: {value: 6, message: "Password must be 6 character or long"} 
                 })}
                 type="password" placeholder="Enter your Password" className="input input-bordered w-full max-w-xs" />
-                <label className="label">
-                    {/* <span className="label-text-alt">Forgot Password?</span> */}
-                </label>
                 {errors.password && <p className="text-red-600" role="alert">{errors.password.message}</p>}
             </div>
 

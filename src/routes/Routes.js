@@ -1,4 +1,5 @@
 import ForgotPassword from "../Pages/ForgotPassword.js/ForgotPassword";
+import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
 
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
             {
                 path: '/forgot-password',
                 element: <ForgotPassword></ForgotPassword>
-            }
+            },
+            {
+                path: '/reset-password/:token',
+                element: <ResetPassword></ResetPassword>
+            },
         ]
     }
 ]);

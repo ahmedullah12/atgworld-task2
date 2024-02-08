@@ -9,7 +9,6 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
 
     const hanldeSendEmail = (data) => {
-        console.log(data);
         const user = {
             email: data.email,
         }
@@ -19,12 +18,12 @@ const ForgotPassword = () => {
         .then(res => {
             if(res.status === 200){
                 alert("check your email for reset password link")
-                    navigate('/');
+                    navigate('/login');
             }
         })
         .catch(err => {
             if(err.response){
-                toast.error(err.response.data.message);
+                toast.error(err.response.data);
             }
         });
     }
