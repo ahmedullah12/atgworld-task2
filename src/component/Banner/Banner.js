@@ -21,7 +21,7 @@ const Banner = () => {
         >
             <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10'></div>
             <div className='text-center z-50'>
-                <p className='text-2xl text-white mb-4'><span className='text-3xl text-orange-500 text-bold'>Stay organized, stay productive</span> <br /> –  Your tasks, Your way!</p>
+                <p className='text-2xl text-white mb-4'><span className='text-3xl text-orange-500 text-bold'>Welcome to ATG Social</span> <br /> – we are thrilled to have you join our community!   </p>
                 <button className="btn btn-outline btn-white text-white relative z-50">
                     {
                         user?.email ? 

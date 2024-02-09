@@ -4,8 +4,9 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaCommentDots } from "react-icons/fa6";
 import { AuthContext } from '../../context/AuthProvider';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import EditPostModal from '../EditPostModal/EditPostModal';
 
-const Post = ({ post }) => {
+const Post = ({ post, refetch }) => {
     const {user} = useContext(AuthContext);
     const {_id,  desc, img, userEmail, userName,  } = post;
     const [isLiked, setIsLiked] = useState(false);
@@ -35,7 +36,7 @@ const Post = ({ post }) => {
                     <div className="dropdown dropdown-bottom dropdown-end absolute top-[10%] right-0">
                         <div tabIndex={0} role="button" className=" m-1"><FaEllipsisV/></div>
                         <ul tabIndex={0} className="dropdown-content z-50 menu p-2 shadow bg-white rounded-box w-52">
-                            <li><button className='text-black'> <FaEdit/> Edit Post</button></li>
+                            <li><label htmlFor= {`editPost-modal-${_id}`} className='text-black'> <FaEdit/> Edit Post</label></li>
                             <li><label htmlFor='confirmation-modal' className="text-black"><FaTrash/> Delete</label></li>
                         </ul>
                     </div>
@@ -49,6 +50,7 @@ const Post = ({ post }) => {
                 setIsConfirmModalOpen={setIsConfirmModalOpen}
                 isConfirmModalOpen={isConfirmModalOpen}
             ></ConfirmationModal>
+            <EditPostModal postId={_id} refetch={refetch} previousDesc={desc}></EditPostModal>
             {img && (
                 <img
                     className="w-full h-48 object-cover object-center"
@@ -68,7 +70,6 @@ const Post = ({ post }) => {
                 </div>
                 {showCommentInput && (
                     <div className="mt-4">
-                        {/* Comment input field and button go here */}
                         <input type="text" placeholder="Write a comment..." className="border p-2 rounded-md w-full" />
                         <button className="btn btn-accent mt-2 text-white">Comment</button>
                     </div>
