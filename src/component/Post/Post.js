@@ -5,13 +5,19 @@ import { FaCommentDots } from "react-icons/fa6";
 import { AuthContext } from '../../context/AuthProvider';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import EditPostModal from '../EditPostModal/EditPostModal';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import Comment from '../Comment/Comment';
 
 const Post = ({ post, refetch }) => {
     const {user} = useContext(AuthContext);
-    const {_id,  desc, img, userEmail, userName,  } = post;
-    const [isLiked, setIsLiked] = useState(false);
+    console.log(user);
+    const {_id,  desc, img, userEmail, userName,  comments} = post;
     const [showCommentInput, setShowCommentInput] = useState(false);
+    const [showComments, setShowComments] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [comment, setComment] = useState('');
 
     const isCurrentUser = user?.email === userEmail;
 
@@ -21,11 +27,43 @@ const Post = ({ post, refetch }) => {
 
     const handleCommentToggle = () => {
         setShowCommentInput(!showCommentInput);
+        setShowComments(!showComments);
     };
 
-    const handleDeletePost = (id) => {
-        console.log(id);
+    const handleDeletePost = (postId) => {
+        console.log(postId);
+        axios.delete(`http://localhost:5000/posts/posts/${postId}`)
+        .then(res => {
+            console.log(res);
+            if(res.status === 200){
+                toast.success(res.data.message);
+                refetch();
+            }
+        })
+        .catch(err => console.log(err))
+    };
+
+    const handleAddComment = () => {
+        const commentData = {
+            userId: user.id, 
+            userEmail: user.email, 
+            userName: user.username,  
+            comment: comment,
+        };
+        axios.post(`http://localhost:5000/posts/posts/comments/${_id}`, commentData)
+        .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+                toast.success(res.data.message);
+                refetch();
+                setComment('');
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
+
 
     return (
         <div className="max-w-lg bg-white shadow-lg rounded-md overflow-hidden mx-auto my-4 px-5 py-4">
@@ -37,7 +75,7 @@ const Post = ({ post, refetch }) => {
                         <div tabIndex={0} role="button" className=" m-1"><FaEllipsisV/></div>
                         <ul tabIndex={0} className="dropdown-content z-50 menu p-2 shadow bg-white rounded-box w-52">
                             <li><label htmlFor= {`editPost-modal-${_id}`} className='text-black'> <FaEdit/> Edit Post</label></li>
-                            <li><label htmlFor='confirmation-modal' className="text-black"><FaTrash/> Delete</label></li>
+                            <li><label htmlFor={`confirmation-modal-${_id}`} className="text-black"><FaTrash/> Delete</label></li>
                         </ul>
                     </div>
                 )}
@@ -65,13 +103,21 @@ const Post = ({ post, refetch }) => {
                         Like
                     </div>
                     <div className='mr-8 flex items-center gap-3 cursor-pointer' onClick={handleCommentToggle}>
-                        <FaCommentDots size={20}/> Comments
+                        <FaCommentDots size={20}/> Comments ({comments.length})
                     </div>                    
                 </div>
                 {showCommentInput && (
                     <div className="mt-4">
-                        <input type="text" placeholder="Write a comment..." className="border p-2 rounded-md w-full" />
-                        <button className="btn btn-accent mt-2 text-white">Comment</button>
+                        <input onChange={(e) => setComment(e.target.value)} type="text" placeholder="Write a comment..." className="border p-2 rounded-md w-full" />
+                        <button onClick={handleAddComment} className="btn btn-accent mt-2 text-white">Comment</button>
+                    </div>
+                )}
+                {showComments && comments.length > 0 && (
+                    <div className="mt-4">
+                        <h2 className="text-lg font-semibold mb-2">Comments:</h2>
+                        {comments.map((comment) => (
+                        <Comment key={comment._id} comment={comment} />
+                        ))}
                     </div>
                 )}
             </div>

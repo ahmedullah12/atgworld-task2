@@ -8,7 +8,7 @@ const ConfirmationModal = ({action, actionDataId, title, setIsConfirmModalOpen, 
 
     return (
         <div>
-            <input type="checkbox"  id="confirmation-modal" className="modal-toggle" checked={isConfirmModalOpen}
+            <input type="checkbox"  id={`confirmation-modal-${actionDataId}`} className="modal-toggle" checked={isConfirmModalOpen}
             onChange={() => setIsConfirmModalOpen(!isConfirmModalOpen)} />
             <div className="modal w-auto max-w-none">
                 <div className="modal-box">
