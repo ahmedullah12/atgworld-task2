@@ -1,4 +1,5 @@
 import ForgotPassword from "../Pages/ForgotPassword.js/ForgotPassword";
+import MyPosts from "../Pages/Posts/MyPosts";
 import Posts from "../Pages/Posts/Posts";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import SignIn from "../Pages/SignIn/SignIn";
@@ -37,7 +38,11 @@ const router = createBrowserRouter([
             {
                 path: "/posts",
                 element: <PrivateRoute><Posts></Posts></PrivateRoute>
-            }
+            },
+            {
+                path: "/my-posts",
+                element: <PrivateRoute><MyPosts></MyPosts></PrivateRoute>
+            },
         ]
     }
 ]);
