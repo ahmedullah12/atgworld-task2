@@ -6,7 +6,7 @@ import AddPostModal from '../../component/AddPostModal/AddPostModal.js';
 
 const Posts = () => {
     
-    const {data: posts, isLoading} = useQuery({
+    const {data: posts, isLoading, refetch} = useQuery({
         queryKey: ["posts"],
         queryFn: async() => {
             const res = await axios.get("http://localhost:5000/posts/posts");
@@ -29,7 +29,7 @@ const Posts = () => {
                     posts.map((post) => <Post key={post._id} post={post}></Post>)
                 }
             </div>
-            <AddPostModal></AddPostModal>
+            <AddPostModal refetch={refetch}></AddPostModal>
         </div>
     );
 };
