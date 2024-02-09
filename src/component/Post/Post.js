@@ -11,19 +11,15 @@ import Comment from '../Comment/Comment';
 
 const Post = ({ post, refetch }) => {
     const {user} = useContext(AuthContext);
-    console.log(user);
-    const {_id,  desc, img, userEmail, userName,  comments} = post;
+    const {_id,  desc, img, userEmail, userName,  comments, likes} = post;
     const [showCommentInput, setShowCommentInput] = useState(false);
     const [showComments, setShowComments] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [comment, setComment] = useState('');
 
     const isCurrentUser = user?.email === userEmail;
-
-    const handleLikeToggle = () => {
-        setIsLiked(!isLiked);
-    };
+    const hasLiked = likes.some((like) => like.userId === user.id);
+    
 
     const handleCommentToggle = () => {
         setShowCommentInput(!showCommentInput);
@@ -32,7 +28,7 @@ const Post = ({ post, refetch }) => {
 
     const handleDeletePost = (postId) => {
         console.log(postId);
-        axios.delete(`http://localhost:5000/posts/posts/${postId}`)
+        axios.delete(`https://atg-task2-server-production.up.railway.app/posts/posts/${postId}`)
         .then(res => {
             console.log(res);
             if(res.status === 200){
@@ -43,6 +39,38 @@ const Post = ({ post, refetch }) => {
         .catch(err => console.log(err))
     };
 
+    const handleLike = () => {
+        const hasLiked = likes.some(like => like.userId === user.id);
+    
+        const requestData = {
+            userId: user.id,
+        };
+    
+        if (hasLiked) {
+            // User has liked, so it's a dislike action
+            axios.post(`https://atg-task2-server-production.up.railway.app/posts/posts/likes/${_id}`, requestData)
+                .then(res => {
+                    if (res.status === 200) {
+                        refetch();
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            // User has not liked, so it's a like action
+            axios.post(`https://atg-task2-server-production.up.railway.app/posts/posts/likes/${_id}`, requestData)
+                .then(res => {
+                    if (res.status === 200) {
+                        refetch();
+                    }
+                })
+                .catch(err => console.log(err));
+        }
+    };
+    const handleLikeToggle = () => {
+        handleLike();
+    };
+    
+
     const handleAddComment = () => {
         const commentData = {
             userId: user.id, 
@@ -50,7 +78,7 @@ const Post = ({ post, refetch }) => {
             userName: user.username,  
             comment: comment,
         };
-        axios.post(`http://localhost:5000/posts/posts/comments/${_id}`, commentData)
+        axios.post(`https://atg-task2-server-production.up.railway.app/posts/posts/comments/${_id}`, commentData)
         .then((res) => {
             console.log(res);
             if (res.status === 200) {
@@ -99,8 +127,8 @@ const Post = ({ post, refetch }) => {
             <div>
                 <div className="flex justify-between mt-4">
                     <div className='ml-5 flex items-center gap-3 cursor-pointer' onClick={handleLikeToggle}>
-                        {isLiked ? <FaHeart size={20} color="red" /> : <FaRegHeart size={20} />}
-                        Like
+                        {hasLiked ? <FaHeart size={20} color="red" /> : <FaRegHeart size={20} />}
+                        Like({likes.length})
                     </div>
                     <div className='mr-8 flex items-center gap-3 cursor-pointer' onClick={handleCommentToggle}>
                         <FaCommentDots size={20}/> Comments ({comments.length})

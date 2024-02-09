@@ -16,7 +16,7 @@ const ResetPassword = () => {
         }
 
 
-        axios.post('http://localhost:5000/auth/reset-password/'+token, user)
+        axios.post('https://atg-task2-server-production.up.railway.app/auth/reset-password/'+token, user)
         .then(res => {
             if(res.status === 200){
                 toast.success(res.data.message)

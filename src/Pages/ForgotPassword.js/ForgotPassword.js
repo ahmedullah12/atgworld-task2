@@ -14,7 +14,7 @@ const ForgotPassword = () => {
         }
 
 
-        axios.post('http://localhost:5000/auth/forgot-password', user)
+        axios.post('https://atg-task2-server-production.up.railway.app/auth/forgot-password', user)
         .then(res => {
             if(res.status === 200){
                 alert("check your email for reset password link")

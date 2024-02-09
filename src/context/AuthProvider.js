@@ -10,7 +10,7 @@ const AuthProvider = ({children}) => {
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get("http://localhost:5000/auth/verify")
+        axios.get("https://atg-task2-server-production.up.railway.app/auth/verify")
             .then(res => {
                 if (res.data.status) {
                     setUser(res.data.user);

@@ -19,7 +19,7 @@ const SignIn = () => {
         }
 
 
-        axios.post('http://localhost:5000/auth/login', user)
+        axios.post('https://atg-task2-server-production.up.railway.app/auth/login', user)
         .then(res => {
             if(res.status === 200){
                 toast.success(res.data.message);

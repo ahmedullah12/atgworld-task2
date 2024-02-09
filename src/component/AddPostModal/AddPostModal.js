@@ -27,18 +27,21 @@ const AddPostModal = ({refetch}) => {
       };
     const handleAddPost = async(e) => {
         e.preventDefault();
+
         
-        if (photo) {
-      const imageHostKey = "7e0021a086b0aaae3d1df03d04fc3faf";
-      const formData = new FormData();
-      formData.append("image", photo);
-  
-      // Upload the image
-      fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
+      if (photo) {
+        const imageHostKey = "7e0021a086b0aaae3d1df03d04fc3faf";
+        const formData = new FormData();
+        formData.append("image", photo);
+    
+        // Upload the image
+        fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
+          method: "POST",
+          body: formData,
+        })
+        .then((res) => {
+          res.json();
+        })
         .then((imgData) => {
           if (imgData.success === true) {
             const post = {
@@ -48,7 +51,7 @@ const AddPostModal = ({refetch}) => {
               userId: user?.id,
               userName: user?.username
             };
-            axios.post("http://localhost:5000/posts/posts", post)
+            axios.post("https://atg-task2-server-production.up.railway.app/posts/posts", post)
               .then((res) => {
                 if (res.status === 200) {
                   setDesc('');
@@ -71,7 +74,7 @@ const AddPostModal = ({refetch}) => {
         userId: user?.id,
         userName: user?.username
       };
-      axios.post("http://localhost:5000/posts/posts", post)
+      axios.post("https://atg-task2-server-production.up.railway.app/posts/posts", post)
         .then((res) => {
           if (res.status === 200) {
               setDesc('');

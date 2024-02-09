@@ -12,7 +12,7 @@ const MyPosts = () => {
     const {data: myPosts, isLoading, refetch} = useQuery({
         queryKey: ["posts"],
         queryFn: async() => {
-            const res = await axios.get(`http://localhost:5000/posts/my-posts?email=${user?.email}`);
+            const res = await axios.get(`https://atg-task2-server-production.up.railway.app/posts/my-posts?email=${user?.email}`);
             const data = await res.data.myPosts;
             return data;
         }

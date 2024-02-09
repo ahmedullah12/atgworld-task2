@@ -14,7 +14,7 @@ const EditPostModal = ({postId, refetch, previousDesc}) => {
           };
           console.log(post);
 
-          axios.put(`http://localhost:5000/posts/posts/${postId}`, post)
+          axios.put(`https://atg-task2-server-production.up.railway.app/posts/posts/${postId}`, post)
           .then(res => {
             if(res.status === 200){
                 toast.success(res.data.message);

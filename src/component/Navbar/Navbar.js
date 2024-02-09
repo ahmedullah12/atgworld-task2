@@ -10,7 +10,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        axios.get('http://localhost:5000/auth/logout')
+        axios.get('https://atg-task2-server-production.up.railway.app/auth/logout')
         .then(res => {
             if(res.data.status){
                 setUser(null);
